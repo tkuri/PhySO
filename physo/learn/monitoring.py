@@ -562,8 +562,10 @@ class RunVisualiser:
         df["length"            ] = np.array([len(prog.tokens) for prog in programs])
         df["reward"            ] = reward
         df["rmse"              ] = rmse
-        df["expression"        ] = np.array([prog.get_infix_str() for prog in programs ])
-        df["expression_prefix" ] = np.array([prog.__str__()       for prog in programs ])
+        df["expression"        ] = np.array([prog.get_infix_str()   for prog in programs ])
+        df["expression_prefix" ] = np.array([prog.__str__()         for prog in programs ])
+        df["expression_latex"  ] = np.array([prog.get_infix_latex(do_simplify = False) for prog in programs ])
+        df["expression_latex_simple"  ] = np.array([prog.get_infix_latex(do_simplify = True)  for prog in programs ])
         # Exporting free const
         free_const       = np.array([prog.free_const_values.detach().cpu().numpy() for prog in programs ])
         free_const_names = [tok.__str__() for tok in self.run_logger.batch.library.free_constants_tokens]
@@ -578,8 +580,10 @@ class RunVisualiser:
                               do_simplify                   = False,
                               show_superparent_at_beginning = True,
                               eq_text_size                  = 12,
-                              delta_xlim                    = [0, 5 ],
-                              delta_ylim                    = [0, 15],
+                            #   delta_xlim                    = [0, 5 ],
+                              delta_xlim                    = [0, 2 ],
+                            #   delta_ylim                    = [0, 15],
+                              delta_ylim                    = [0, 0.01],
                               frac_delta_equ                = [0.03, 0.03],
                               figsize                       = (20, 10),
                      ):
